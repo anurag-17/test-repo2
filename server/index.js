@@ -50,11 +50,14 @@ const upload = multer({ storage: storage });
 // });
 
 app.post("/upload", upload.single("file"), async (req, res) => {
+  // console.log(req);
+  // return
   try {
+    
     const filePath = req.file.path;
     const fileType = req.file.mimetype;
     let htmlContent = "";
-
+    
 
     if (fileType === "application/pdf") {
       // Convert PDF to HTML using pdf2htmlEX as before
@@ -89,7 +92,7 @@ app.post("/upload", upload.single("file"), async (req, res) => {
 });
 
 // Start the server
-const PORT = 5000;
+const PORT = 5001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
