@@ -263,10 +263,10 @@ app.get("/summaryData/:id", async (req, res) => {
 
 if (process.env.NODE_ENV === "dev") {
   //replaced "production" with "dev"
-  app.use(express.static("client/build"));
+  app.use(express.static("../client/build"));
 
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+    res.sendFile(path.resolve(__dirname, "../client", "build", "index.html"));
   });
 } else {
   app.get("/", (req, res) => {
