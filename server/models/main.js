@@ -1,12 +1,15 @@
 const mongoose = require("mongoose");
 
-const testSchema = new mongoose.Schema({
+const mainSchema = new mongoose.Schema({
   mainHeading: {
     type: String,
   },
   file: {
     type: mongoose.Schema.Types.Mixed,
   },
+  // mainId: {
+  //   type: String
+  // }, //summary 
   createdAt: {
     type: Date,
     default: Date.now,
@@ -14,4 +17,4 @@ const testSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model("Test", testSchema);
+module.exports = mongoose.model("Main", mainSchema);
