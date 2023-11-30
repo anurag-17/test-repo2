@@ -6,6 +6,7 @@ const summarySchema = new mongoose.Schema({
   },
   file: {
     type: mongoose.Schema.Types.Mixed,
+    // type: String,
   },
   mainId: {
     type: String
