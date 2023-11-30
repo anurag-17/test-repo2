@@ -78,30 +78,40 @@ const upload = multer({ storage: storage });
 
 app.post("/upload", upload.single("file"), async (req, res) => {
   try {
-    // console.log(req.file);
+    const { mainHeading } = req.body;
     const filePath = req.file.path;
     const fileType = req.file.mimetype;
     let htmlContent = "";
-    
 
     if (fileType === "application/pdf") {
       // Convert PDF to HTML using pdf2htmlEX as before
     } else if (
       fileType ===
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
       fileType === "application/msword"
-      ) {
-        const docxContent = await fs.readFile(filePath);
-        const options = { buffer: docxContent };
-        
+    ) {
+      const docxContent = await fs.readFile(filePath);
+      const options = { buffer: docxContent };
+
       mammoth
         .convertToHtml(options)
         .then((result) => {
-          console.log(result );
-          
           htmlContent = result.value;
-          // Save htmlContent to your database or send it as a response
-          res.status(200).json({ htmlContent });
+
+          // save in DB
+          const newTest = new Main({
+            mainHeading,
+            file: { htmlContent },
+          });
+
+          newTest.save()
+            .then(() => {
+              res.status(200).json({ htmlContent, mainHeading });
+            })
+            .catch((error) => {
+              console.error("Error saving Test document:", error);
+              res.status(500).json({ error: "Error saving Test document" });
+            });
         })
         .catch((error) => {
           console.error("Mammoth conversion error:", error);
