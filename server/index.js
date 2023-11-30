@@ -7,7 +7,10 @@ const app = express();
 const { promisify } = require("util");
 const readFile = promisify(fs.readFile);
 var cors = require("cors");
+const path = require("path");
 require("dotenv").config({ path: "../.env" });
+
+
 const connectDB = require("./config/db");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
