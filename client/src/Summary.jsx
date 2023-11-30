@@ -11,7 +11,7 @@ const Summary = () => {
 
   const fetchApi = async () => {
     try {
-      const response = await axios.get("http://localhost:5001/allSummaryData");
+      const response = await axios.get("https://test-repo2-lemon.vercel.app/allSummaryData");
 
       if (response.status === 200) {
         setallData(response?.data);

@@ -50,7 +50,7 @@ const Testing = () => {
       // formData.append("file", file);
 
       const response = await axios.post(
-        "http://localhost:5001/upload",
+        "https://test-repo2-lemon.vercel.app/upload",
         mainData,
         {
           headers: {
@@ -76,7 +76,7 @@ const Testing = () => {
       // formData.append("file", file);
 
       const response = await axios.post(
-        "http://localhost:5001/uploadSummary",
+        "https://test-repo2-lemon.vercel.app/uploadSummary",
         summaryData,
         {
           headers: {
@@ -94,7 +94,7 @@ const Testing = () => {
     console.log(mainData);
     try {
       const response = await axios.post(
-        "http://localhost:5001/uploadMainBook",
+        "https://test-repo2-lemon.vercel.app/uploadMainBook",
         mainData,
         {
           headers: {
@@ -119,7 +119,7 @@ const Testing = () => {
     // console.log(summaryData)
     try {
       const response = await axiosInstance.post(
-        "http://localhost:5001/uploadSummary",
+        "https://test-repo2-lemon.vercel.app/uploadSummary",
         summaryData
       );
       console.log(response);
