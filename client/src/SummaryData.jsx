@@ -18,10 +18,10 @@ const SummaryData = () => {
     }
   }, [allData, params.id]);
 
-  const fetchApi =  () => {
+  const fetchApi = async () => {
     try {
-      const response =  axios.get("https://test-repo2-lemon.vercel.app/allMainData");
-
+      const response = await axios.get("https://test-repo2-lemon.vercel.app/allMainData");
+console.log(response)
       if (response.status === 200) {
         setallData(response?.data);
       }
@@ -34,6 +34,7 @@ const SummaryData = () => {
     <>
       {allData.map((items, index) => (
         <div key={items?._id} ref={params.id === items?._id ? targetDivRef : null}>
+          {console.log(items)}
           <div dangerouslySetInnerHTML={{ __html: items?.file?.htmlContent }} />
         </div>
       ))}
