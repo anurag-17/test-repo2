@@ -106,7 +106,7 @@ app.post("/upload", upload.single("file"), async (req, res) => {
 
           newTest.save()
             .then(() => {
-              res.status(200).json({ htmlContent, mainHeading });
+              res.status(200).json({ htmlContent, mainHeading, id: newTest._id });
             })
             .catch((error) => {
               console.error("Error saving Test document:", error);
@@ -180,7 +180,7 @@ app.post("/uploadSummary", upload.single("file"), async (req, res) => {
 
           newSummary.save()
             .then(() => {
-              res.status(200).json({ htmlContent, mainHeading , mainId});
+              res.status(200).json({ htmlContent, mainHeading , mainId , id: newSummary._id});
             })
             .catch((error) => {
               console.error("Error saving Summary document:", error);
