@@ -137,16 +137,67 @@ app.post("/uploadMainBook", async (req, res) => {
   res.status(201).json(career);
 });
 
-app.post("/uploadSummary", async (req, res) => {
-  const { mainHeading, file , mainId} = req.body;
+// app.post("/uploadSummary", async (req, res) => {
+//   const { mainHeading, file , mainId} = req.body;
   
-  const career = await Summary.create({
-    mainHeading,
-    file,
-    mainId
-  });
+//   const career = await Summary.create({
+//     mainHeading,
+//     file,
+//     mainId
+//   });
 
-  res.status(201).json(career);
+//   res.status(201).json(career);
+// });
+
+app.post("/uploadSummary", upload.single("file"), async (req, res) => {
+  try {
+    const { mainHeading, mainId } = req.body;
+    const filePath = req.file.path;
+    const fileType = req.file.mimetype;
+    let htmlContent = "";
+
+    if (fileType === "application/pdf") {
+      // Convert PDF to HTML using pdf2htmlEX as before
+    } else if (
+      fileType ===
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ||
+      fileType === "application/msword"
+    ) {
+      const docxContent = await fs.readFile(filePath);
+      const options = { buffer: docxContent };
+
+      mammoth
+        .convertToHtml(options)
+        .then((result) => {
+          htmlContent = result.value;
+
+          // save in DB
+          const newSummary = new Summary({
+            mainHeading,
+            mainId,
+            file: { htmlContent },
+          });
+
+          newSummary.save()
+            .then(() => {
+              res.status(200).json({ htmlContent, mainHeading , mainId});
+            })
+            .catch((error) => {
+              console.error("Error saving Summary document:", error);
+              res.status(500).json({ error: "Error saving Summary document" });
+            });
+        })
+        .catch((error) => {
+          console.error("Mammoth conversion error:", error);
+          res.status(500).json({ error: "Error converting file to HTML" });
+        });
+    } else {
+      res.status(400).json({ error: "Unsupported file type" });
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "Error processing file" });
+  }
 });
 
 // GET all Main data
